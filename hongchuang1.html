@@ -134,9 +134,6 @@
             const params = new URLSearchParams(window.location.search);
             return {
                 certificate: params.get('certificate') || '',
-                systemOrder: params.get('systemOrder') || '',
-                serial: params.get('serial') || '',
-                entrust: params.get('entrust') || '',
                 unit: params.get('unit') || '',
                 calibration: params.get('calibration') || '',
                 device: params.get('device') || '',
@@ -148,9 +145,6 @@
         function renderPageContent(params) {
             const paramToIdMap = {
                 certificate: 'certificateNumber',
-                systemOrder: 'systemOrder',
-                serial: 'serialNumber',
-                entrust: 'entrustOrder',
                 unit: 'certificateUnit',
                 calibration: 'calibrationDate',
                 device: 'deviceName',
