@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>证书信息查询</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+        }
+        .container {
+            width: 90%;
+            max-width: 400px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 0;
+            overflow: hidden;
+        }
+        .info div {
+            background-color: #e6f0f7;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .info span:first-child {
+            font-weight: bold;
+            color: #555;
+            min-width: 120px;
+            text-align: left;
+        }
+        .info span:last-child {
+            flex-grow: 1;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="info">
+            <div><span>公司名称:</span> <span id="company">-</span></div>
+            <div><span>设备名称:</span> <span id="device">-</span></div>
+            <div><span>出厂编号:</span> <span id="serial">-</span></div>
+            <div><span>管理编号:</span> <span id="management">-</span></div>
+            <div><span>检/校日期:</span> <span id="calibration">-</span></div>
+            <div><span>证书编号:</span> <span id="certificate">-</span></div>
+        </div>
+    </div>
+
+    <script>
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                company: params.get('company') || '/',
+                device: params.get('device') || '/',
+                serial: params.get('serial') || '/',
+                management: params.get('management') || '/',
+                calibration: params.get('calibration') || '/',
+                certificate: params.get('certificate') || '/'
+            };
+        }
+
+        function renderData() {
+            const data = getQueryParams();
+            Object.entries(data).forEach(([key, value]) => {
+                document.getElementById(key).textContent = value;
+            });
+        }
+
+        renderData();
+    </script>
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>证书查询</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            font-size: 1em;
+            color: #333;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .divider-container {
+            position: relative;
+            width: 100%;
+            margin: 0 auto;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .divider-container::before,
+        .divider-container::after {
+            content: '';
+            display: block;
+            width: 110%;
+            height: 1px;
+            background-color: #ccc;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .divider-container::before { top: 0; }
+        .divider-container::after { bottom: 0; }
+
+        input[type="text"],
+        button {
+            width: calc(100% - 40px);
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            box-sizing: border-box;
+            display: block;
+            margin: 0 auto;
+        }
+
+        input[type="text"] {
+            border: 1px solid #ccc;
+            z-index: 1;
+        }
+
+        button {
+            background-color: rgb(51, 136, 203);
+            color: white;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            table-layout: fixed;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            word-wrap: break-word;
+        }
+
+        th {
+            width: 30%;
+            background-color: rgb(159, 212, 244);
+            color: black;
+        }
+
+        td a {
+            color: blue;
+            text-decoration: none;
+        }
+
+        td a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>请输入计量证书编号或证书条码</h1>
+        <form id="queryForm">
+            <div class="divider-container">
+                <input type="text" id="certificateInput" placeholder="请输入证书编号或条码">
+            </div>
+            <button type="submit">查询</button>
+        </form>
+        <table>
+            <tr><th>证书编号</th><td><a href="#" id="certificateNumber"></a></td></tr>
+            <tr><th>系统单号</th><td><a href="#" id="systemOrder"></a></td></tr>
+            <tr><th>序号</th><td><a href="#" id="serialNumber"></a></td></tr>
+            <tr><th>委托单号</th><td><a href="#" id="entrustOrder"></a></td></tr>
+            <tr><th>证书单位</th><td><a href="#" id="certificateUnit"></a></td></tr>
+            <tr><th>校准日期</th><td><a href="#" id="calibrationDate"></a></td></tr>
+            <tr><th>仪器名称</th><td><a href="#" id="deviceName"></a></td></tr>
+            <tr><th>出厂编号</th><td><a href="#" id="factorySerial"></a></td></tr>
+            <tr><th>管理编号</th><td><a href="#" id="managementNumber"></a></td></tr>
+        </table>
+    </div>
+
+    <script>
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                certificate: params.get('certificate') || '',
+                systemOrder: params.get('systemOrder') || '',
+                serial: params.get('serial') || '',
+                entrust: params.get('entrust') || '',
+                unit: params.get('unit') || '',
+                calibration: params.get('calibration') || '',
+                device: params.get('device') || '',
+                factory: params.get('factory') || '',
+                management: params.get('management') || ''
+            };
+        }
+
+        function renderPageContent(params) {
+            const paramToIdMap = {
+                certificate: 'certificateNumber',
+                systemOrder: 'systemOrder',
+                serial: 'serialNumber',
+                entrust: 'entrustOrder',
+                unit: 'certificateUnit',
+                calibration: 'calibrationDate',
+                device: 'deviceName',
+                factory: 'factorySerial',
+                management: 'managementNumber'
+            };
+
+            for (const [param, value] of Object.entries(params)) {
+                if (paramToIdMap[param]) {
+                    const element = document.getElementById(paramToIdMap[param]);
+                    element.textContent = value || '/';
+                    element.href = `?${param}=${encodeURIComponent(value || '')}`;
+                    element.style.color = 'black';
+                }
+            }
+        }
+
+        window.onload = () => {
+            const queryParams = getQueryParams();
+            renderPageContent(queryParams);
+
+            document.getElementById('queryForm').addEventListener('submit', event => {
+                event.preventDefault();
+                const inputValue = document.getElementById('certificateInput').value.trim();
+                if (inputValue) {
+                    window.location.href = `?certificate=${encodeURIComponent(inputValue)}`;
+                }
+            });
+        };
+    </script>
+</body>
+</html>
