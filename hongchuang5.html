@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>证书信息查询</title>
+  <style>
+    /* 页面整体样式 */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh; /* 让容器在垂直方向上有一定留白 */
+      color: #333;
+    }
+
+    /* 外层容器：模拟“box” */
+    .container {
+      width: 90%;
+      max-width: 400px;
+      background-color: rgb(172, 226, 202); /* 172,226,202 */
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      position: relative;
+      margin-top: 20px; /* 与页面顶部保持一点距离 */
+      padding: 20px 20px 30px; /* 上下左右留内边距 */
+      box-sizing: border-box;
+    }
+
+    /* 左上角 LOGO（点击时不跳转） */
+    .logo {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      width: 60px; /* 可根据需求修改 LOGO 宽度 */
+      height: auto;
+      cursor: default; /* 不跳转时可去掉链接手型 */
+    }
+
+    /* 信息行整体样式 */
+    .info-line {
+      text-align: center; /* 水平居中显示文本 */
+      margin-top: 60px; /* 让第一行与 LOGO 拉开一些距离 */
+      font-size: 1rem;
+      font-weight: 500;
+    }
+    /* 除第一行外，其余行可减少间距 */
+    .info-line + .info-line {
+      margin-top: 20px;
+    }
+
+    /* 标签与值的样式 */
+    .label {
+      font-weight: bold;
+      margin-right: 6px;
+    }
+    .value {
+      color: #444;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- 左上角 LOGO，点击不跳转 -->
+    <img
+      src="https://s2.loli.net/2025/03/27/h4dkz7UYm3OCsaW.png"
+      alt="LOGO"
+      class="logo"
+    />
+
+    <!-- 五行信息 -->
+    <div class="info-line">
+      <span class="label">证书编号：</span>
+      <span class="value" id="certificate">-</span>
+    </div>
+    <div class="info-line">
+      <span class="label">设备名称：</span>
+      <span class="value" id="device">-</span>
+    </div>
+    <div class="info-line">
+      <span class="label">出厂编号：</span>
+      <span class="value" id="serial">-</span>
+    </div>
+    <div class="info-line">
+      <span class="label">设备管理编号：</span>
+      <span class="value" id="management">-</span>
+    </div>
+    <div class="info-line">
+      <span class="label">完检日期：</span>
+      <span class="value" id="date">-</span>
+    </div>
+  </div>
+
+  <script>
+    // 从 URL 中解析参数并返回对象
+    function getQueryParams() {
+      const params = new URLSearchParams(window.location.search);
+      return {
+        certificate: params.get('certificate') || '/',
+        device: params.get('device') || '/',
+        serial: params.get('serial') || '/',
+        management: params.get('management') || '/',
+        date: params.get('date') || '/'
+      };
+    }
+
+    // 将参数值渲染到对应的 DOM
+    function renderData() {
+      const data = getQueryParams();
+      document.getElementById('certificate').textContent = data.certificate;
+      document.getElementById('device').textContent = data.device;
+      document.getElementById('serial').textContent = data.serial;
+      document.getElementById('management').textContent = data.management;
+      document.getElementById('date').textContent = data.date;
+    }
+
+    // 页面加载时执行
+    renderData();
+  </script>
+</body>
+</html>
